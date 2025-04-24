@@ -1,24 +1,23 @@
-import { Link, Navigate, Outlet } from 'react-router';
-import { jwtVerify } from 'jose';
+import { Navigate, Outlet } from 'react-router';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
+import { auth } from '../config/firebaseCFG';
 
 const AuthMiddleware = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem('token');
-      const secretKey = new TextEncoder().encode('minhaChaveSecreta');
-      const isAuthenticated = await jwtVerify(token, secretKey);
-      if (isAuthenticated) {
-        setIsAuthenticated(true);
-      }
-    };
-    verifyToken();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAuthenticated(!!user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  if (isAuthenticated === null) {
-    return <Link to="/login">Você está sem acesso!</Link>;
-  }
-  return isAuthenticated == true ? <Outlet /> : <Navigate to="/login" />;
+  if (loading) return <div>Loading...</div>;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
 };
+
 export default AuthMiddleware;

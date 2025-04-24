@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router"; // From 'react-router' in new versions
+import { useNavigate } from "react-router";
 import { auth } from "./config/firebaseCFG";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
