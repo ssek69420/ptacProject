@@ -1,22 +1,23 @@
 import React, { StrictMode } from "react";
-import {createRoot} from 'react-dom/client';
-import Login from "./Login.jsx";
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router';
 
-import App from './App.jsx'
+import Home from "./Home.jsx";
+import App from './App.jsx';
+import AuthMiddleware from "./middlewares/middleware.jsx";
 
-const rootElement = document.getElementById('root')
+const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
-    <StrictMode>
-        <BrowserRouter>
-        <Routes>
-            <Route>
-              <Route path="/login" element = {<Login/>}/>
-                <Route path = "/" element = {<App/>}/>
-            </Route>
-        </Routes>
-        </BrowserRouter>
-    </StrictMode>
-)
+  <StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AuthMiddleware />}>
+          <Route path="/" element={<Home />} />
+        </Route>
+        <Route path="/login" element={<App />} />
+      </Routes>
+    </BrowserRouter>
+  </StrictMode>
+);
