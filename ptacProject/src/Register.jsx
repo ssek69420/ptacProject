@@ -10,10 +10,8 @@ export default function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     try {
-      await createUserWithEmailAndPassword(auth, email, pass);
-      alert('Cadastrated!'); 
+      await createUserWithEmailAndPassword(auth, email, pass); 
       navigate('/login'); 
     } catch (err) {
       alert("Skibidi error occurred: " + err.message); 
@@ -27,19 +25,19 @@ export default function Register() {
         <form onSubmit={handleRegister}>
           <input 
             type="email"
-            placeholder="email"
+            placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input 
             type="password"
-            placeholder="password"
+            placeholder="Pass"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
             required
           />
-          <button type="submit">Cadastrate</button>
+          <button type="submit">Register</button>
         </form>
       </main>
     </div>
